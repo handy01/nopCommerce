@@ -176,3 +176,11 @@ GO
  	VALUES (N'shippingsettings.hideshippingtotal', N'False', 0)
  END
  GO
+ 
+ --new setting
+ IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'catalogsettings.ExportImportUseDropdownlistsForAssociatedEntities')
+ BEGIN
+ 	INSERT [Setting] ([Name], [Value], [StoreId])
+ 	VALUES (N'catalogsettings.ExportImportUseDropdownlistsForAssociatedEntities', N'True', 0)
+ END
+ GO
