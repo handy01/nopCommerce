@@ -338,6 +338,18 @@ set @resources='
   <LocaleResource Name="Admin.ContentManagement.Blog.BlogPosts.Fields.Tags.Placeholder">
     <Value>Enter tags ...</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ShowSkuOnCatalogPages">
+    <Value>Show SKU on catalog pages</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ShowSkuOnCatalogPages.Hint">
+    <Value>Check to show product SKU on catalog pages in public store.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ShowSkuOnProductDetailsPage">
+    <Value>Show SKU on product details page</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Catalog.ShowSkuOnProductDetailsPage.Hint">
+    <Value>Check to show product SKU on the product details page in public store.</Value>
+  </LocaleResource>
 </Language>
 '
 
@@ -945,4 +957,18 @@ BEGIN
 	INSERT [Setting] ([Name], [Value], [StoreId])
 	VALUES (N'catalogsettings.productreviewpossibleonlyafterpurchasing', N'False', 0)
 END
+GO
+
+--new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'catalogsettings.showskuoncatalogpages')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'catalogsettings.showskuoncatalogpages', N'False', 0)
+END
+GO
+
+--rename settings
+UPDATE [Setting] 
+SET [Name] = N'catalogsettings.showskuonproductdetailspage' 
+WHERE [Name] = N'catalogsettings.showproductsku'
 GO
