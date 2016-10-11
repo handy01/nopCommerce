@@ -87,6 +87,9 @@ namespace Nop.Services.Configuration
                             orderby s.Name, s.StoreId
                             select s;
                 var settings = query.ToList();
+
+
+
                 var dictionary = new Dictionary<string, IList<SettingForCaching>>();
                 foreach (var s in settings)
                 {
