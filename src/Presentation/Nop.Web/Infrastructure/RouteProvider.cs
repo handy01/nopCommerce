@@ -49,8 +49,8 @@ namespace Nop.Web.Infrastructure
             //estimate shipping
             routes.MapLocalizedRoute("EstimateShipping",
                             "cart/estimateshipping",
-                            new {controller = "ShoppingCart", action = "GetEstimateShipping"},
-                            new[] {"Nop.Web.Controllers"});
+                            new { controller = "ShoppingCart", action = "GetEstimateShipping" },
+                            new[] { "Nop.Web.Controllers" });
             //wishlist
             routes.MapLocalizedRoute("Wishlist",
                             "wishlist/{customerGuid}",
@@ -99,6 +99,13 @@ namespace Nop.Web.Infrastructure
                             new { customercurrency = @"\d+" },
                             new[] { "Nop.Web.Controllers" });
             //change language (AJAX link)
+            routes.MapLocalizedRoute("CategoryManufacturer",
+                          "merek/{sCategory}/{sManufacturer}",
+                          new { controller = "Catalog", action = "CategoryManufacturer" },
+                       new { sCategory = ".*", sManufacturer = ".*" },
+
+                          new[] { "Nop.Web.Controllers" });
+
             routes.MapLocalizedRoute("ChangeLanguage",
                             "changelanguage/{langid}",
                             new { controller = "Common", action = "SetLanguage" },
@@ -311,7 +318,7 @@ namespace Nop.Web.Infrastructure
             //password recovery confirmation
             routes.MapLocalizedRoute("PasswordRecoveryConfirm",
                             "passwordrecovery/confirm",
-                            new { controller = "Customer", action = "PasswordRecoveryConfirm" },                            
+                            new { controller = "Customer", action = "PasswordRecoveryConfirm" },
                             new[] { "Nop.Web.Controllers" });
 
             //topics
@@ -319,7 +326,7 @@ namespace Nop.Web.Infrastructure
                             "t-popup/{SystemName}",
                             new { controller = "Topic", action = "TopicDetailsPopup" },
                             new[] { "Nop.Web.Controllers" });
-            
+
             //blog
             routes.MapLocalizedRoute("BlogByTag",
                             "blog/tag/{tag}",
@@ -505,7 +512,7 @@ namespace Nop.Web.Infrastructure
                             "newproducts/rss",
                             new { controller = "Product", action = "NewProductsRss" },
                             new[] { "Nop.Web.Controllers" });
-            
+
             //get state list by country ID  (AJAX link)
             routes.MapRoute("GetStatesByCountryId",
                             "country/getstatesbycountryid/",
@@ -536,7 +543,7 @@ namespace Nop.Web.Infrastructure
                             new { controller = "ShoppingCart", action = "UploadFileCheckoutAttribute" },
                             new { attributeId = @"\d+" },
                             new[] { "Nop.Web.Controllers" });
-            
+
             //forums
             routes.MapLocalizedRoute("ActiveDiscussions",
                             "boards/activediscussions",
@@ -705,7 +712,7 @@ namespace Nop.Web.Infrastructure
                             "install",
                             new { controller = "Install", action = "Index" },
                             new[] { "Nop.Web.Controllers" });
-            
+
             //page not found
             routes.MapLocalizedRoute("PageNotFound",
                             "page-not-found",

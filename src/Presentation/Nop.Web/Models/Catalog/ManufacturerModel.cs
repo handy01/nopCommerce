@@ -28,5 +28,11 @@ namespace Nop.Web.Models.Catalog
 
         public IList<ProductOverviewModel> FeaturedProducts { get; set; }
         public IList<ProductOverviewModel> Products { get; set; }
+    
+    }
+    public partial class ManufacturersModelWithCategory
+    {
+        public IList<ManufacturerModel> ListManufacturerModel { get; set; }
+        public string CategoryName { get; set; }
     }
 }

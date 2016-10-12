@@ -107,5 +107,8 @@ namespace Nop.Services.Catalog
         /// <param name="manufacturerNames">The names of the manufacturers to check</param>
         /// <returns>List of names not existing manufacturers</returns>
         string[] GetNotExistingManufacturers(string[] manufacturerNames);
+
+        IList<Manufacturer> GetManufacturerByCategoryID(int CategoryID, bool showHidden = false);
+
     }
 }

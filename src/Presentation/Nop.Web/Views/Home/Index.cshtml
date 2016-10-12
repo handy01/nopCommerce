@@ -1,23 +1,92 @@
 ﻿@{
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
-
-    //page class
-    Html.AppendPageCssClassParts("html-home-page");
 }
-<div class="page home-page">
-    <div class="page-body">
-        @Html.Widget("home_page_top")
-        @Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })
-        @Html.Widget("home_page_before_categories")
-        @Html.Action("HomepageCategories", "Catalog")
-        @Html.Widget("home_page_before_products")
-        @Html.Action("HomepageProducts", "Product")
-        @Html.Widget("home_page_before_best_sellers")
-        @Html.Action("HomepageBestSellers", "Product")
-        @Html.Widget("home_page_before_news")
-        @Html.Action("HomePageNews", "News")
-        @Html.Widget("home_page_before_poll")
-        @Html.Action("HomePagePolls", "Poll")
-        @Html.Widget("home_page_bottom")
+
+@Html.Partial("~/Views/Home/slider.cshtml")
+
+@*@Html.Partial("~/Views/Home/hotlist.cshtml")*@
+
+@*<div class="page home-page">
+    <div class="page-body">*@
+<div class="m-div-list center-1">
+
+    <div class="product-list-type1 active" id="first">
+        <div class="product-content-type1 clearfix">
+
+            @Html.Action("HomePageParadeCategories", "Catalog", new { categoryIndex = 0 })
+            @Html.Widget("home_page_before_products")
+
+            @Html.Widget("home_page_before_best_sellers")
+            @Html.Action("HomepageBestSellers", "Product")
+
+            @*@Html.Partial("~/Views/Home/category_inhome.cshtml")
+                @Html.Widget("home_page_before_products")
+                @Html.Action("HomepageProducts", "Product")
+                @Html.Widget("home_page_before_best_sellers")
+                @Html.Action("HomepageBestSellers", "Product")*@
+
+        </div>
+    </div>
+
+    <div class="product-list-type1" id="two">
+        <div class="product-content-type1 clearfix">
+
+            @Html.Action("HomePageParadeCategories", "Catalog", new { categoryIndex = 1 })
+            @Html.Widget("home_page_before_products")
+
+            @Html.Widget("home_page_before_best_sellers")
+            @Html.Action("HomepageBestSellers", "Product")
+
+            @*@Html.Partial("~/Views/Home/category_inhome.cshtml")
+                @Html.Widget("home_page_before_products")
+                @Html.Action("HomepageProducts", "Product")
+                @Html.Widget("home_page_before_best_sellers")
+                @Html.Action("HomepageBestSellers", "Product")*@
+
+        </div>
     </div>
 </div>
+
+@*@Html.Partial("~/Views/Home/TopCategory.cshtml")*@
+
+@Html.Widget("home_page_before_categories")
+@Html.Action("HomepageCategories", "Catalog")
+
+
+</div>
+</div>
+<div class="register">
+    <div class="container">
+        <div class="title-t1">
+            Sell on Indotrading.com
+        </div>
+        <p>Register With Us <span>&gt;&gt;</span> Upload Your Products <span>&gt;&gt;</span> Start Selling</p>
+        <a class="btn-regis" href="">Start selling now</a>
+    </div>
+</div>
+
+<div class="container">
+
+    @*<div class="logo-client">
+            <h3 class="title-topc" style="margin-left: 15px;">
+                <span class="content"><strong>Our Valued Customers</strong></span>
+            </h3>
+            <img src="@Url.Content("~/Themes/DefaultClean/Content/images/logoclien.jpg")" alt="Our valued Customers" data-device-type="">
+        </div>*@
+    @*@Html.Widget("home_page_before_news")
+        @Html.Action("HomePageNews", "News")*@
+    @*@Html.Widget("home_page_before_poll")
+        @Html.Action("HomePagePolls", "Poll")*@
+    @Html.Widget("home_page_bottom")
+    @*</div>
+        </div>*@
+
+    <div class="box-info">
+        @Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })
+        <h2 class="bottom-info-h2">Shop for Industrial Goods &amp; Supplies</h2>
+        <div class="common-bottom-container-info">
+            Lorem Ipsum adalah contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting. Lorem Ipsum telah menjadi standar contoh teks sejak tahun 1500an, saat seorang tukang cetak yang tidak dikenal mengambil sebuah kumpulan teks dan mengacaknya untuk menjadi sebuah buku contoh huruf. Ia tidak hanya bertahan selama 5 abad, tapi juga telah beralih ke penataan huruf elektronik, tanpa ada perubahan apapun. Ia mulai dipopulerkan pada tahun 1960 dengan diluncurkannya lembaran-lembaran Letraset yang menggunakan kalimat-kalimat dari Lorem Ipsum, dan seiring munculnya perangkat lunak Desktop Publishing seperti Aldus PageMaker juga memiliki versi Lorem Ipsum.
+
+            Sudah merupakan fakta bahwa seorang pembaca akan terpengaruh oleh isi tulisan dari sebuah halaman saat ia melihat tata letaknya. Maksud penggunaan Lorem Ipsum adalah karena ia kurang lebih memiliki penyebaran huruf yang normal, ketimbang menggunakan kalimat seperti "Bagian isi disini, bagian isi disini", sehingga ia seolah menjadi naskah Inggris yang bisa dibaca. Banyak paket Desktop Publishing dan editor situs web yang kini menggunakan Lorem Ipsum sebagai contoh teks. Karenanya pencarian terhadap kalimat "Lorem Ipsum" akan berujung pada banyak situs web yang masih dalam tahap pengembangan. Berbagai versi juga telah berubah dari tahun ke tahun, kadang karena tidak sengaja, kadang karena disengaja (misalnya karena dimasukkan unsur humor atau semacamnya)
+        </div>
+    </div>

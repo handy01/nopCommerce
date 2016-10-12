@@ -11,7 +11,7 @@ using Nop.Services.Customers;
 using Nop.Services.Events;
 using Nop.Services.Security;
 using Nop.Services.Stores;
-
+using Nop.Core.Domain.Banners;
 namespace Nop.Services.Catalog
 {
     /// <summary>
@@ -38,6 +38,7 @@ namespace Nop.Services.Catalog
         /// {4} : include all levels (child)
         /// </remarks>
         private const string CATEGORIES_BY_PARENT_CATEGORY_ID_KEY = "Nop.category.byparent-{0}-{1}-{2}-{3}-{4}";
+        private const string CATEGORY_NAVIGATION_MODEL_KEY = "Nop.category.byparent-{0}-{1}-{2}-{3}-{4}";
         /// <summary>
         /// Key for caching
         /// </summary>
@@ -75,6 +76,7 @@ namespace Nop.Services.Catalog
 
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<ProductCategory> _productCategoryRepository;
+        private readonly IRepository<ProductManufacturer> _productManufacturerRepository;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<AclRecord> _aclRepository;
         private readonly IRepository<StoreMapping> _storeMappingRepository;
@@ -85,9 +87,12 @@ namespace Nop.Services.Catalog
         private readonly IStoreMappingService _storeMappingService;
         private readonly IAclService _aclService;
         private readonly CatalogSettings _catalogSettings;
+        private readonly IRepository<Banner> _bannerRepository;
+        private readonly IRepository<BannerCategoryMapping> _bannerCategoryRepository;
+
 
         #endregion
-        
+
         #region Ctor
 
         /// <summary>
@@ -108,6 +113,7 @@ namespace Nop.Services.Catalog
         public CategoryService(ICacheManager cacheManager,
             IRepository<Category> categoryRepository,
             IRepository<ProductCategory> productCategoryRepository,
+            IRepository<ProductManufacturer> productManufacturerRepository,
             IRepository<Product> productRepository,
             IRepository<AclRecord> aclRepository,
             IRepository<StoreMapping> storeMappingRepository,
@@ -116,7 +122,9 @@ namespace Nop.Services.Catalog
             IEventPublisher eventPublisher,
             IStoreMappingService storeMappingService,
             IAclService aclService,
-            CatalogSettings catalogSettings)
+            CatalogSettings catalogSettings,
+            IRepository<Banner> bannerRepository,
+            IRepository<BannerCategoryMapping> bannerCategoryRepository)
         {
             this._cacheManager = cacheManager;
             this._categoryRepository = categoryRepository;
@@ -130,7 +138,12 @@ namespace Nop.Services.Catalog
             this._storeMappingService = storeMappingService;
             this._aclService = aclService;
             this._catalogSettings = catalogSettings;
+            this._productManufacturerRepository = productManufacturerRepository;
+            this._bannerRepository = bannerRepository;
+            this._bannerCategoryRepository = bannerCategoryRepository;
+
         }
+
 
         #endregion
 
@@ -156,7 +169,7 @@ namespace Nop.Services.Catalog
                 UpdateCategory(subcategory);
             }
         }
-        
+
         /// <summary>
         /// Gets all categories
         /// </summary>
@@ -166,7 +179,7 @@ namespace Nop.Services.Catalog
         /// <param name="pageSize">Page size</param>
         /// <param name="showHidden">A value indicating whether to show hidden records</param>
         /// <returns>Categories</returns>
-        public virtual IPagedList<Category> GetAllCategories(string categoryName = "", int storeId = 0, 
+        public virtual IPagedList<Category> GetAllCategories(string categoryName = "", int storeId = 0,
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
         {
             var query = _categoryRepository.Table;
@@ -209,7 +222,7 @@ namespace Nop.Services.Catalog
                         select cGroup.FirstOrDefault();
                 query = query.OrderBy(c => c.ParentCategoryId).ThenBy(c => c.DisplayOrder);
             }
-            
+
             var unsortedCategories = query.ToList();
 
             //sort categories
@@ -287,7 +300,7 @@ namespace Nop.Services.Catalog
                 return categories;
             });
         }
-        
+
         /// <summary>
         /// Gets all categories displayed on the home page
         /// </summary>
@@ -298,7 +311,7 @@ namespace Nop.Services.Catalog
             var query = from c in _categoryRepository.Table
                         orderby c.DisplayOrder
                         where c.Published &&
-                        !c.Deleted && 
+                        !c.Deleted &&
                         c.ShowOnHomePage
                         select c;
 
@@ -312,7 +325,7 @@ namespace Nop.Services.Catalog
 
             return categories;
         }
-                
+
         /// <summary>
         /// Gets a category
         /// </summary>
@@ -322,7 +335,7 @@ namespace Nop.Services.Catalog
         {
             if (categoryId == 0)
                 return null;
-            
+
             string key = string.Format(CATEGORIES_BY_ID_KEY, categoryId);
             return _cacheManager.Get(key, () => _categoryRepository.GetById(categoryId));
         }
@@ -376,8 +389,8 @@ namespace Nop.Services.Catalog
             //event notification
             _eventPublisher.EntityUpdated(category);
         }
-        
-        
+
+
         /// <summary>
         /// Deletes a product category mapping
         /// </summary>
@@ -537,7 +550,7 @@ namespace Nop.Services.Catalog
         {
             if (productCategory == null)
                 throw new ArgumentNullException("productCategory");
-            
+
             _productCategoryRepository.Insert(productCategory);
 
             //cache
@@ -596,10 +609,62 @@ namespace Nop.Services.Catalog
             var query = _productCategoryRepository.Table;
 
             return query.Where(p => productIds.Contains(p.ProductId))
-                .Select(p => new {p.ProductId, p.CategoryId}).ToList()
+                .Select(p => new { p.ProductId, p.CategoryId }).ToList()
                 .GroupBy(a => a.ProductId)
                 .ToDictionary(items => items.Key, items => items.Select(a => a.CategoryId).ToArray());
-        } 
+        }
+        /// <summary>
+        /// Gets all categories filtered by parent category identifier
+        /// </summary>
+        /// <param name="parentCategoryId">Parent category identifier</param>
+        /// <param name="showHidden">A value indicating whether to show hidden records</param>
+        /// <param name="includeAllLevels">A value indicating whether we should load all child levels</param>
+        /// <returns>Categories</returns>
+        public virtual IList<Category> GetAllSiblingCategoriesByCategoryId(int categoryId,
+            bool showHidden = false, bool includeAllLevels = false)
+        {
+            string key = string.Format("Nop.pres.category.navigation-{0}-{1}-{2}-{3}",
+                    _workContext.WorkingLanguage.Id, string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
+                    _storeContext.CurrentStore.Id, categoryId);
+            //, categoryId, showHidden, _workContext.CurrentCustomer.Id, _storeContext.CurrentStore.Id, includeAllLevels);
+            return _cacheManager.Get(key, () =>
+            {
+                var oCat = _categoryRepository.Table.FirstOrDefault(x => x.Id == categoryId);
+                var query = _categoryRepository.Table.Where(x => x.ParentCategoryId == oCat.ParentCategoryId && x.Id != categoryId);
+
+
+
+
+                return query.ToList();
+            });
+        }
+        public virtual IList<Category> GetCategoryByManufacturerId(int manufacturerId, bool showHidden = false)
+        {
+            var query = from pc in _productCategoryRepository.Table
+                        join pm in _productManufacturerRepository.Table on pc.ProductId equals pm.ProductId
+                        join c in _categoryRepository.Table on pc.CategoryId equals c.Id
+                        where pm.ManufacturerId == manufacturerId && !c.Deleted &&
+                                (showHidden || c.Published)
+                        select c;
+            //distinct
+            query = from m in query
+                    group m by m.Id
+                          into mGroup
+                    orderby mGroup.Key
+                    select mGroup.FirstOrDefault();
+            var categories = query.ToList();
+            return categories;
+        }
+        public virtual IList<Banner> GetBannerPicturesByLocationIdAndCategoryId(int location, int categoryId)
+        {
+            var query = from b in _bannerRepository.Table
+                        join bcm in _bannerCategoryRepository.Table on b.Id equals bcm.BannerId
+                        where bcm.CategoryId == categoryId && bcm.Location == location
+                        orderby bcm.DisplayOrder
+                        select b;
+            var bannerPictures = query.ToList();
+            return bannerPictures;
+        }
         #endregion
     }
 }

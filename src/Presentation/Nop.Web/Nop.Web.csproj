@@ -582,6 +582,7 @@
     <Content Include="Content\samples\product_WomenTShirt.jpg" />
     <Content Include="Content\samples\p_attribute_print_1.jpg" />
     <Content Include="Content\samples\p_attribute_print_2.jpg" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\fineuploader\edit.gif" />
     <Content Include="Scripts\fineuploader\fineuploader-4.2.2.css" />
     <Content Include="Scripts\fineuploader\fineuploader-4.2.2.min.css" />
@@ -610,12 +611,20 @@
     <Content Include="Scripts\jquery.magnific-popup.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\scriptplus.js" />
     <Content Include="Scripts\selectivizr.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\slick.min.js" />
+    <Content Include="Themes\DefaultClean\Content\css\bootstrap.min.css" />
+    <Content Include="Themes\DefaultClean\Content\css\font-awesome.min.css" />
     <Content Include="Themes\DefaultClean\Content\css\ie8.css" />
+    <Content Include="Themes\DefaultClean\Content\css\resp.css" />
+    <Content Include="Themes\DefaultClean\Content\css\slick-theme.css" />
+    <Content Include="Themes\DefaultClean\Content\css\slick.css" />
     <Content Include="Themes\DefaultClean\Content\css\styles.css" />
     <Content Include="Themes\DefaultClean\Content\css\styles.rtl.css" />
+    <Content Include="Themes\DefaultClean\Content\css\styleV2.css" />
     <Content Include="Themes\DefaultClean\Content\images\ajax-loader-small.gif" />
     <Content Include="Themes\DefaultClean\Content\images\back-button.png" />
     <Content Include="Themes\DefaultClean\Content\images\calendar-next.png" />
@@ -633,12 +642,14 @@
     <Content Include="Themes\DefaultClean\Content\images\last.png" />
     <Content Include="Themes\DefaultClean\Content\images\loading.gif" />
     <Content Include="Themes\DefaultClean\Content\images\logo.png" />
+    <Content Include="Themes\DefaultClean\Content\images\logoclien.jpg" />
     <Content Include="Themes\DefaultClean\Content\images\menu-icon.png" />
     <Content Include="Themes\DefaultClean\Content\images\move.png" />
     <Content Include="Themes\DefaultClean\Content\images\new.png" />
     <Content Include="Themes\DefaultClean\Content\images\next.png" />
     <Content Include="Themes\DefaultClean\Content\images\pointer.png" />
     <Content Include="Themes\DefaultClean\Content\images\prev.png" />
+    <Content Include="Themes\DefaultClean\Content\images\promo.jpg" />
     <Content Include="Themes\DefaultClean\Content\images\rating1.png" />
     <Content Include="Themes\DefaultClean\Content\images\rating2.png" />
     <Content Include="Themes\DefaultClean\Content\images\remove.png" />
@@ -992,9 +1003,19 @@
     <Content Include="Views\Product\CustomerProductReviews.cshtml" />
     <Content Include="Views\Vendor\Info.cshtml" />
     <Content Include="Views\Common\Logo.cshtml" />
+    <Content Include="Views\Home\slider.cshtml" />
+    <Content Include="Views\Catalog\HomePageParadeCategories.cshtml" />
+    <Content Include="Views\Home\category_inhome.cshtml" />
+    <Content Include="Views\Home\hotlist.cshtml" />
+    <Content Include="Views\Home\TopCategory.cshtml" />
+    <Content Include="Views\Home\TopSelling.cshtml" />
+    <Content Include="Views\Shared\LanguageAttributes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
+    <Folder Include="Themes\DefaultClean\Content\fonts\" />
+    <Folder Include="Themes\DefaultClean\Content\images\img_sementara\" />
+    <Folder Include="Themes\DefaultClean\Content\images\user\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj">

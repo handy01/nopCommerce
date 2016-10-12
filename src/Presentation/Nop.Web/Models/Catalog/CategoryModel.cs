@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Models.Media;
+using Nop.Core.Domain.Banners;
 
 namespace Nop.Web.Models.Catalog
 {
@@ -34,9 +35,10 @@ namespace Nop.Web.Models.Catalog
 
         public IList<ProductOverviewModel> FeaturedProducts { get; set; }
         public IList<ProductOverviewModel> Products { get; set; }
-        
+        public IList<Banner> Banners { get; set; }
 
-		#region Nested Classes
+
+        #region Nested Classes
 
         public partial class SubCategoryModel : BaseNopEntityModel
         {

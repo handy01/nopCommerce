@@ -1,14 +1,9 @@
 ﻿@model ManufacturerModel
 @{
     Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
-
-    //title
     Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
-    //meta
     Html.AddMetaDescriptionParts(Model.MetaDescription);
     Html.AddMetaKeywordParts(Model.MetaKeywords);
-    //page class
-    Html.AppendPageCssClassParts("html-manufacturer-page");
 
     var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
     if (canonicalUrlsEnabled)
@@ -41,11 +36,13 @@
                 <div class="title">
                     <strong>@T("Products.FeaturedProducts")</strong>
                 </div>
-                <div class="item-grid">
+                <div class="item-grid clearfix">
                     @foreach (var product in Model.FeaturedProducts)
                     {
-                        <div class="item-box">
-                            @Html.Partial("_ProductBox", product)
+                        <div class="width-col">
+                            <div class="item-box">
+                                @Html.Partial("_ProductBox", product)
+                            </div>
                         </div>
                     }
                 </div>
@@ -70,8 +67,10 @@
                 <div class="item-grid">
                     @foreach (var product in Model.Products)
                     {
-                        <div class="item-box">
-                            @Html.Partial("_ProductBox", product)
+                        <div class="width-col">
+                            <div class="item-box">
+                                @Html.Partial("_ProductBox", product)
+                            </div>
                         </div>
                     }
                 </div>

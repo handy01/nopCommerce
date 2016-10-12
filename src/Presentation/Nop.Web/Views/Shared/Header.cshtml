@@ -1,23 +1,87 @@
-﻿<div class="header">
-    @Html.Widget("header")
-    <div class="header-upper">
-        <div class="header-selectors-wrapper">
-            @Html.Action("TaxTypeSelector", "Common")
-            @Html.Action("CurrencySelector", "Common")
-            @Html.Action("LanguageSelector", "Common")
-            @Html.Widget("header_selectors")
-        </div>
-        <div class="header-links-wrapper">
-            @Html.Action("HeaderLinks", "Common")
-            @Html.Action("FlyoutShoppingCart", "ShoppingCart")
+﻿@using Nop.Core
+@using Nop.Core.Infrastructure
+@using Nop.Services.Localization
+@using Nop.Web.Framework.Themes
+@{
+    //logo path
+    var currentThemeName = EngineContext.Current.Resolve<IThemeContext>().WorkingThemeName;
+    var logoPath = "~/Themes/" + currentThemeName + "/Content/images/logo.png";
+
+    //store name
+    var storeName = EngineContext.Current.Resolve<IStoreContext>().CurrentStore.GetLocalized(x => x.Name);
+}
+<div class="top-container hidden-sm hidden-md hidden-xs">
+    <div class="container">
+        <div class="row">
+            @Html.Widget("header")
+
+            <div class="col-sm-3">
+                <div class="phone">
+                    Customer Care <span> <a href="tel:+91 8282 8282 82">+91 8282 8282 82 </a></span>
+                </div>
+            </div>
+
+            @*<div class="header-upper">
+                    <div class="header-selectors-wrapper">
+
+                        @Html.Action("TaxTypeSelector", "Common")
+
+                        @Html.Action("CurrencySelector", "Common")
+
+                        @Html.Action("LanguageSelector", "Common")
+
+                        @Html.Widget("header_selectors")
+                    </div>
+                    <div class="header-links-wrapper">
+                        @Html.Action("HeaderLinks", "Common")
+                        @Html.Action("FlyoutShoppingCart", "ShoppingCart")
+                    </div>
+                </div>*@
+
+            <div class="col-sm-3">
+                <span class="truk-desk">
+                    @Html.Action("TaxTypeSelector", "Common")
+                    @*@Html.Action("CurrencySelector", "Common")*@
+                    @Html.Action("LanguageSelector", "Common")
+                    @Html.Widget("header_selectors")
+                </span>
+            </div>
+            <div class="col-sm-6">
+                <div class="top-links-area">
+                    <ul class="links">
+                        @Html.Action("HeaderLinks", "Common")
+                        @Html.Action("FlyoutShoppingCart", "ShoppingCart")
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="header-lower">
-        <div class="header-logo">
-            @Html.Action("Logo", "Common")
-        </div>
-        <div class="search-box store-search-box">
-            @Html.Action("SearchBox", "Catalog")
+</div>
+<div class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4">
+                <div class="mobile-menu hidden-lg hidden-md">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <div class="logo">
+                    <a href="@Url.RouteUrl("HomePage")">
+                        <img title="" alt="@storeName" src="@Url.Content(logoPath)">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-xs-5 col-sm-5">
+                <div class="clearfix search-palce">
+                    @Html.Action("SearchBox", "Catalog")
+                </div>
+            </div>
+
+            <div class="col-xs-3 col-sm-3">
+                <div class="icon-header-right">
+                    <i class="fa fa-search"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>

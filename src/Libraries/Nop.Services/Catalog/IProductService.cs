@@ -525,6 +525,7 @@ namespace Nop.Services.Catalog
         /// </summary>
         /// <param name="pwi">ProductWarehouseInventory</param>
         void DeleteProductWarehouseInventory(ProductWarehouseInventory pwi);
+        IList<Product> GetRelatedProductsByProductIdUsingCategory(int productId);
 
         #endregion
     }

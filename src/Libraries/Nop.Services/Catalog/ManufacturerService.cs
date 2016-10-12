@@ -55,6 +55,7 @@ namespace Nop.Services.Catalog
         /// Key pattern to clear cache
         /// </summary>
         private const string PRODUCTMANUFACTURERS_PATTERN_KEY = "Nop.productmanufacturer.";
+        private readonly IRepository<ProductCategory> _productCategoryRepository;
 
         #endregion
 
@@ -91,6 +92,7 @@ namespace Nop.Services.Catalog
         public ManufacturerService(ICacheManager cacheManager,
             IRepository<Manufacturer> manufacturerRepository,
             IRepository<ProductManufacturer> productManufacturerRepository,
+            IRepository<ProductCategory> productCategoryRepository,
             IRepository<Product> productRepository,
             IRepository<AclRecord> aclRepository,
             IRepository<StoreMapping> storeMappingRepository,
@@ -102,6 +104,7 @@ namespace Nop.Services.Catalog
             this._cacheManager = cacheManager;
             this._manufacturerRepository = manufacturerRepository;
             this._productManufacturerRepository = productManufacturerRepository;
+            this._productCategoryRepository = productCategoryRepository;
             this._productRepository = productRepository;
             this._aclRepository = aclRepository;
             this._storeMappingRepository = storeMappingRepository;
@@ -122,7 +125,7 @@ namespace Nop.Services.Catalog
         {
             if (manufacturer == null)
                 throw new ArgumentNullException("manufacturer");
-            
+
             manufacturer.Deleted = true;
             UpdateManufacturer(manufacturer);
         }
@@ -139,7 +142,7 @@ namespace Nop.Services.Catalog
         public virtual IPagedList<Manufacturer> GetAllManufacturers(string manufacturerName = "",
             int storeId = 0,
             int pageIndex = 0,
-            int pageSize = int.MaxValue, 
+            int pageSize = int.MaxValue,
             bool showHidden = false)
         {
             var query = _manufacturerRepository.Table;
@@ -177,8 +180,8 @@ namespace Nop.Services.Catalog
                 query = from m in query
                         group m by m.Id
                             into mGroup
-                            orderby mGroup.Key
-                            select mGroup.FirstOrDefault();
+                        orderby mGroup.Key
+                        select mGroup.FirstOrDefault();
                 query = query.OrderBy(m => m.DisplayOrder);
             }
 
@@ -194,7 +197,7 @@ namespace Nop.Services.Catalog
         {
             if (manufacturerId == 0)
                 return null;
-            
+
             string key = string.Format(MANUFACTURERS_BY_ID_KEY, manufacturerId);
             return _cacheManager.Get(key, () => _manufacturerRepository.GetById(manufacturerId));
         }
@@ -236,7 +239,7 @@ namespace Nop.Services.Catalog
             //event notification
             _eventPublisher.EntityUpdated(manufacturer);
         }
-        
+
 
         /// <summary>
         /// Deletes a product manufacturer mapping
@@ -387,7 +390,7 @@ namespace Nop.Services.Catalog
                 return productManufacturers;
             });
         }
-        
+
         /// <summary>
         /// Gets a product manufacturer mapping 
         /// </summary>
@@ -450,7 +453,7 @@ namespace Nop.Services.Catalog
             var query = _productManufacturerRepository.Table;
 
             return query.Where(p => productIds.Contains(p.ProductId))
-                .Select(p => new {p.ProductId, p.ManufacturerId}).ToList()
+                .Select(p => new { p.ProductId, p.ManufacturerId }).ToList()
                 .GroupBy(a => a.ProductId)
                 .ToDictionary(items => items.Key, items => items.Select(a => a.ManufacturerId).ToArray());
         }
@@ -470,6 +473,25 @@ namespace Nop.Services.Catalog
             var queryFilter = manufacturerNames.Distinct().ToArray();
             var filter = query.Select(m => m.Name).Where(m => queryFilter.Contains(m)).ToList();
             return queryFilter.Except(filter).ToArray();
+        }
+        public virtual IList<Manufacturer> GetManufacturerByCategoryID(int CategoryID, bool showHidden = false)
+        {
+            var query = from pm in _productManufacturerRepository.Table
+                        join pca in _productCategoryRepository.Table on pm.ProductId equals pca.ProductId
+                        join m in _manufacturerRepository.Table on pm.ManufacturerId equals m.Id
+                        where pca.CategoryId == CategoryID && !m.Deleted &&
+                                (showHidden || m.Published)
+                        select m;
+            //distinct
+            query = from m in query
+                    group m by m.Id
+                          into mGroup
+                    orderby mGroup.Key
+                    select mGroup.FirstOrDefault();
+            var manufacturers = query.ToList();
+            return manufacturers;
+
+
         }
 
         #endregion

@@ -47,6 +47,15 @@ namespace Nop.Core.Configuration
             config.UseFastInstallationService = GetBool(installationNode, "UseFastInstallationService");
             config.PluginsIgnoredDuringInstallation = GetString(installationNode, "PluginsIgnoredDuringInstallation");
 
+            var amazonS3Node = section.SelectSingleNode("AmazonS3");
+            if (amazonS3Node != null && amazonS3Node.Attributes != null)
+            {
+                config.AmazonS3AccessKey = amazonS3Node.Attributes["AccessKey"].Value;
+                config.AmazonS3SecretKey = amazonS3Node.Attributes["SecretKey"].Value;
+                config.TempImageFolder = amazonS3Node.Attributes["TempImageFolder"].Value;
+
+            }
+
             return config;
         }
 
@@ -136,5 +145,9 @@ namespace Nop.Core.Configuration
         /// A list of plugins ignored during nopCommerce installation
         /// </summary>
         public string PluginsIgnoredDuringInstallation { get; private set; }
+        public string AmazonS3AccessKey { get; private set; }
+        public string AmazonS3SecretKey { get; private set; }
+        public string TempImageFolder { get; private set; }
+
     }
 }

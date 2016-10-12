@@ -1,0 +1,35 @@
+﻿
+@using Nop.Core.Domain.Banners;
+@model List<Banner>
+<div class="container-slick">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="content-slider" style="overflow-y:hidden">
+                @*<div class="item-slider">
+                    <img src="@Url.Content("~/Themes/DefaultClean/Content/images/img_sementara/slider1.gif")" />
+                    @*<span class="slide-title" style="display:none;"><b>TIITLE</b> Deskripsi satu</span>
+                </div>
+                <div class="item-slider">
+                    <img src="@Url.Content("/Themes/DefaultClean/Content/images/img_sementara/slider2.gif")" />
+                    @*<span class="slide-title" style="display:none;"><b>TIITLE</b> Deskripsi satu</span>
+                </div>
+                <div class="item-slider">
+                    <img src="@Url.Content("/Themes/DefaultClean/Content/images/img_sementara/slider3.gif")" />
+                    @*<span class="slide-title" style="display:none;"><b>TIITLE</b> Deskripsi Dua</span>
+                </div>*@
+                @foreach (var banner in Model)
+                {
+                    <div class="item-slider">
+                        <a href="@banner.BannerUrl">
+                            <img src="@banner.PictureUrl" />
+                        </a>
+                    </div>
+                }
+            </div>
+            <!-- <div class="nav-slide-home">
+                <a class="prev"><i class="fa fa-chevron-left"></i></a>
+                <a class="next"><i class="fa fa-chevron-right"></i></a>
+            </div> -->
+        </div>
+    </div>
+</div>

@@ -4,8 +4,6 @@
 
     //title
     Html.AddTitleParts(string.Format(T("PageTitle.ProductsByTag").Text, Model.TagName));
-    //page class
-    Html.AppendPageCssClassParts("html-product-tag-page");
 
     //canonical URL
     var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
@@ -32,11 +30,13 @@
         @if (Model.Products.Count > 0)
         {
             <div class="@(Model.PagingFilteringContext.ViewMode == "list" ? "product-list" : "product-grid")">
-                <div class="item-grid">
+                <div class="item-grid clearfix">
                     @foreach (var product in Model.Products)
                     {
-                        <div class="item-box">
-                            @Html.Partial("_ProductBox", product)
+                        <div class="col-sm-4">
+                            <div class="item-boxV2">
+                                @Html.Partial("_ProductBox", product)
+                            </div>
                         </div>
                     }
                 </div>

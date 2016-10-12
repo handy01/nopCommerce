@@ -4,8 +4,6 @@
 
     //title
     Html.AddTitleParts(T("PageTitle.Search").Text);
-    //page class
-    Html.AppendPageCssClassParts("html-search-page");
 }
 @using Nop.Web.Models.Catalog;
 <script type="text/javascript">
@@ -19,16 +17,16 @@
     function toggleAdvancedSearch() {
 
         if ($('#@Html.FieldIdFor(model => model.adv)').is(':checked')) {
-            $('#advanced-search-block').show();
+            $('#advanced-search-block').show('slow');
         }
         else {
-            $('#advanced-search-block').hide();
+            $('#advanced-search-block').hide('slow');
         }
     }
 </script>
 <div class="page search-page">
     <div class="page-title">
-        <h1>@T("Search")</h1>
+        <h1 style="display:none">@T("Search")</h1>
     </div>
     <div class="page-body">
         <div class="search-input">
@@ -66,13 +64,6 @@
                                     @Html.DropDownListFor(model => model.mid, Model.AvailableManufacturers)
                                 </div>
                             }
-                            @if (Model.asv && Model.AvailableVendors.Count > 0)
-                            {
-                                <div class="inputs">
-                                    @Html.LabelFor(model => model.vid, new {}, ":")
-                                    @Html.DropDownListFor(model => model.vid, Model.AvailableVendors)
-                                </div>
-                            }
                             <div class="inputs">
                                 <label>@T("Search.PriceRange"):</label>
                                 <span class="price-range">
@@ -90,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="buttons">
+                <div class="buttons" style="float: right;">
                     <input type="submit" class="button-1 search-button" value="@T("Search.Button")" />
                 </div>
             }
@@ -113,14 +104,14 @@
                     @T("Search.NoResultsText")
                 </div>
             }
-            
+
             @if (Model.Products.Count > 0)
             {
                 <div class="@(Model.PagingFilteringContext.ViewMode == "list" ? "product-list" : "product-grid")">
-                    <div class="item-grid">
+                    <div class="item-grid clearfix">
                         @foreach (var product in Model.Products)
                         {
-                            <div class="item-box">
+                            <div class="item-box mr">
                                 @Html.Partial("_ProductBox", product)
                             </div>
                         }

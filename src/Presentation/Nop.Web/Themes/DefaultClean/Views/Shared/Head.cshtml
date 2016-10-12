@@ -2,7 +2,7 @@
 @using Nop.Core.Infrastructure
 @using Nop.Web.Framework.Themes
 @using Nop.Web.Framework.UI
-@{  
+@{
     var supportRtl = EngineContext.Current.Resolve<IWorkContext>().WorkingLanguage.Rtl;
     var themeName = EngineContext.Current.Resolve<IThemeContext>().WorkingThemeName;
 
@@ -10,24 +10,32 @@
     var browser = Request.Browser;
     if (browser.Browser == "IE" && browser.MajorVersion == 8)
     {
-        Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/ie8.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/themes/{0}content/css/ie8.css", themeName));
     }
     //add main CSS file
     if (supportRtl)
     {
-        Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/styles.rtl.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/themes/{0}/content/css/styles.rtl.css", themeName));
     }
     else
     {
-        Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/styles.css", themeName));
+        //baru
+        Html.AppendCssFileParts(string.Format("~/themes/{0}/content/css/resp.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/themes/{0}/content/css/styleV2.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/themes/{0}/content/css/slick.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/themes/{0}/content/css/slick-theme.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/themes/{0}/content/css/font-awesome.min.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/themes/{0}/content/css/bootstrap.min.css", themeName));
+        //style lama
+        //Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/styles.css", themeName));
     }
-    
+
     //add jQuery UI css file
-    Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendCssFileParts("~/content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
 
     if (browser.Browser == "IE" && browser.MajorVersion == 8)
     {
-        Html.AddScriptParts("~/Scripts/selectivizr.min.js");
-        Html.AddScriptParts("~/Scripts/respond.min.js");
+        Html.AddScriptParts("~/scripts/selectivizr.min.js");
+        Html.AddScriptParts("~/scripts/respond.min.js");
     }
 }

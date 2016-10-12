@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
+using Nop.Core.Domain.Banners;
 
 namespace Nop.Services.Catalog
 {
@@ -128,5 +129,11 @@ namespace Nop.Services.Catalog
         /// <param name="productIds">Products IDs</param>
         /// <returns>Category IDs for products</returns>
         IDictionary<int, int[]> GetProductCategoryIds(int[] productIds);
+        IList<Category> GetAllSiblingCategoriesByCategoryId(int categoryId,
+          bool showHidden = false, bool includeAllLevels = false);
+        IList<Category> GetCategoryByManufacturerId(int manufacturerId, bool showHidden = false);
+        IList<Banner> GetBannerPicturesByLocationIdAndCategoryId(int location, int categoryId);
+
+
     }
 }

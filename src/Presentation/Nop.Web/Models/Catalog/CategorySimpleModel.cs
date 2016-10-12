@@ -19,5 +19,7 @@ namespace Nop.Web.Models.Catalog
         public bool IncludeInTopMenu { get; set; }
 
         public List<CategorySimpleModel> SubCategories { get; set; }
+        public int ParentCatID { get; set; }
+
     }
 }

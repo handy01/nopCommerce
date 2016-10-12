@@ -1,25 +1,38 @@
 ﻿@model ManufacturerNavigationModel
 @using Nop.Web.Models.Catalog;
-@if (Model.Manufacturers.Count > 0)
+@if (Model.Manufacturers.Count > 0 && ViewBag.CategoryId != 0)
 {
-    <div class="block block-manufacturer-navigation">
-        <div class="title">
-            <strong>@T("Manufacturers")</strong>
+    <div class="iner-filter">
+        <div class="block-title">
+            Merek
         </div>
-        <div class="listbox">
+        <div class="block-content listbox">
             <ul class="list">
+
                 @foreach (var manufacturer in Model.Manufacturers)
                 {
-                    <li class="@(manufacturer.IsActive ? "active" : "inactive")"><a href="@Url.RouteUrl("Manufacturer", new { SeName = manufacturer.SeName })">@manufacturer.Name</a>
+                    if (ViewBag.CategoryId != 0)
+                    {
+                        <li class="@(manufacturer.IsActive ? "active" : "inactive")">
+                            <a href="@Url.RouteUrl("Manufacturer", new { SeName = "merek/" + ViewBag.CategoryName + "/" + manufacturer.SeName })">@manufacturer.Name</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="@(manufacturer.IsActive ? "active" : "inactive")">
+                            <a href="@Url.RouteUrl("Manufacturer", new { SeName = manufacturer.SeName })">@manufacturer.Name</a>
+                        </li>
+                    }
+                }
+                @if (ViewBag.CategoryId != 0 && ViewBag.ManufacturerId != 0)
+                {
+                    <li>
+                        <a href="@Url.RouteUrl("Manufacturer", new { SeName = ViewBag.ManufacturerSeName})">Semua Produk @ViewBag.ManufacturerName</a>
                     </li>
                 }
+
             </ul>
-            @if (Model.TotalManufacturers > Model.Manufacturers.Count)
-            {
-                <div class="view-all">
-                    <a href="@Url.RouteUrl("ManufacturerList")">@T("Manufacturers.ViewAll")</a>
-                </div>
-            }
+
         </div>
     </div>
 }

@@ -25,6 +25,11 @@ using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Kendoui;
 using Nop.Web.Framework.Mvc;
 
+using Nop.Services.Banners;
+
+using Nop.Core.Domain.Banners;
+
+
 namespace Nop.Admin.Controllers
 {
     public partial class CategoryController : BaseAdminController
@@ -53,7 +58,8 @@ namespace Nop.Admin.Controllers
         private readonly IWorkContext _workContext;
         private readonly IImportManager _importManager;
         private readonly ICacheManager _cacheManager;
-
+       
+       
         #endregion
 
         #region Constructors

@@ -10,8 +10,9 @@
         }
         else
         {
-            <li><a href="@Url.RouteUrl("Register")" class="ico-register">@T("Account.Register")</a></li>
-            <li><a href="@Url.RouteUrl("Login")" class="ico-login">@T("Account.Login")</a></li>
+            @*<li><a onclick="getFormreg()" style="cursor: pointer;" class="ico-register">@T("Account.Register")</a></li>*@
+            @*<li><a href="@Url.RouteUrl("Login")" class="ico-login">@T("Account.Login")</a></li>*@
+            <li><a onclick="getForm()" style="cursor: pointer;">@T("Account.Login")</a> </li>
         }
         @if (Model.AllowPrivateMessages)
         {
@@ -71,3 +72,36 @@
         </script>
     }
 </div>
+
+
+<script type="text/javascript">
+function getForm(){$('#dialog').dialog({
+            autoOpen: true,
+            width: 400,
+            resizable: false,
+            draggable: false,
+            //title: 'Login',
+            modal: true,
+            show: 'puff',
+            open: function(event, ui) {
+                $(this).load('@Url.Action("Login", "Customer")');
+            },
+        });
+}
+    function getFormreg() {
+        $('#dialog').dialog({
+            autoOpen: true,
+            width: 400,
+            resizable: false,
+            draggable: false,
+            //title: 'Login',
+            modal: true,
+            show: 'puff',
+            open: function (event, ui) {
+                $(this).load('@Url.Action("Register", "Customer")');
+            },
+        });
+    }
+</script>
+
+<div id="dialog"></div>

@@ -40,6 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="AWSSDK">
+      <HintPath>bin\AWSSDK.dll</HintPath>
+    </Reference>
     <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
       <Private>True</Private>
@@ -169,6 +172,8 @@
     <Compile Include="Authentication\External\UserClaims.cs" />
     <Compile Include="Authentication\External\IClaimsTranslator.cs" />
     <Compile Include="Authentication\External\OpenAuthenticationParameters.cs" />
+    <Compile Include="Banners\BannerService.cs" />
+    <Compile Include="Banners\IBannerService.cs" />
     <Compile Include="Blogs\BlogService.cs" />
     <Compile Include="Blogs\BlogExtensions.cs" />
     <Compile Include="Blogs\IBlogService.cs" />
@@ -250,6 +255,7 @@
     <Compile Include="Helpers\IUserAgentHelper.cs" />
     <Compile Include="Helpers\UserAgentHelper.cs" />
     <Compile Include="Logging\ClearLogTask.cs" />
+    <Compile Include="Media\AmazonS3PictureService.cs" />
     <Compile Include="Media\AzurePictureService.cs" />
     <Compile Include="Media\ResizeType.cs" />
     <Compile Include="Orders\UpdateOrderParameters.cs" />
